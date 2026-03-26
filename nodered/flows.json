@@ -489,7 +489,7 @@
         "order": 1,
         "width": 12,
         "height": 7,
-        "format": "{{{msg.payload}}}",
+        "format": "<div ng-bind-html=\"msg.payload | trusted\"></div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
