@@ -59,13 +59,16 @@
         "connectTimeout": "10000",
         "queryTimeout": "4000"
     },
-
     {
         "id": "inject_trigger",
         "type": "inject",
         "z": "tab_main",
         "name": "3초마다 실행",
-        "props": [{"p": "payload"}],
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
         "repeat": "3",
         "crontab": "",
         "once": true,
@@ -75,9 +78,13 @@
         "payloadType": "date",
         "x": 120,
         "y": 100,
-        "wires": [["set_query_latest", "set_query_history"]]
+        "wires": [
+            [
+                "set_query_latest",
+                "set_query_history"
+            ]
+        ]
     },
-
     {
         "id": "set_query_latest",
         "type": "function",
@@ -88,7 +95,11 @@
         "noerr": 0,
         "x": 320,
         "y": 60,
-        "wires": [["mysql_latest"]]
+        "wires": [
+            [
+                "mysql_latest"
+            ]
+        ]
     },
     {
         "id": "mysql_latest",
@@ -98,9 +109,13 @@
         "name": "MySQL: 최신값",
         "x": 520,
         "y": 60,
-        "wires": [["parse_gauges", "parse_charts"]]
+        "wires": [
+            [
+                "parse_gauges",
+                "parse_charts"
+            ]
+        ]
     },
-
     {
         "id": "set_query_history",
         "type": "function",
@@ -111,7 +126,11 @@
         "noerr": 0,
         "x": 320,
         "y": 140,
-        "wires": [["mysql_history"]]
+        "wires": [
+            [
+                "mysql_history"
+            ]
+        ]
     },
     {
         "id": "mysql_history",
@@ -121,9 +140,12 @@
         "name": "MySQL: 최근기록",
         "x": 520,
         "y": 140,
-        "wires": [["parse_table"]]
+        "wires": [
+            [
+                "parse_table"
+            ]
+        ]
     },
-
     {
         "id": "parse_gauges",
         "type": "function",
@@ -135,13 +157,20 @@
         "x": 740,
         "y": 20,
         "wires": [
-            ["gauge_temp"],
-            ["gauge_hum"],
-            ["gauge_co2"],
-            ["gauge_pm"]
+            [
+                "gauge_temp"
+            ],
+            [
+                "gauge_hum"
+            ],
+            [
+                "gauge_co2"
+            ],
+            [
+                "gauge_pm"
+            ]
         ]
     },
-
     {
         "id": "parse_charts",
         "type": "function",
@@ -153,26 +182,36 @@
         "x": 740,
         "y": 80,
         "wires": [
-            ["chart_temp"],
-            ["chart_hum"],
-            ["chart_co2"],
-            ["chart_pm"]
+            [
+                "chart_temp"
+            ],
+            [
+                "chart_hum"
+            ],
+            [
+                "chart_co2"
+            ],
+            [
+                "chart_pm"
+            ]
         ]
     },
-
     {
         "id": "parse_table",
         "type": "function",
         "z": "tab_main",
         "name": "테이블 HTML",
-        "func": "var rows = msg.payload;\nif (!rows) { msg.payload='<p>데이터 없음</p>'; return msg; }\nvar html = '<div style=\"overflow-x:auto\"><table style=\"width:100%;border-collapse:collapse;font-size:13px;font-family:sans-serif\">';\nhtml += '<thead><tr style=\"background:#1565c0;color:#fff;text-align:center\">';\nhtml += '<th style=\"padding:8px\">시각</th><th>위치</th><th>온도(°C)</th><th>습도(%)</th><th>CO₂(ppm)</th><th>PM2.5</th></tr></thead><tbody>';\nrows.forEach(function(r,i){\n    var bg=(i%2===0)?'#fff':'#f0f4ff';\n    var dt=new Date(r.recorded_at);\n    var ts=('0'+dt.getHours()).slice(-2)+':'+('0'+dt.getMinutes()).slice(-2)+':'+('0'+dt.getSeconds()).slice(-2);\n    var tColor = r.temperature>30?'red':(r.temperature>26?'orange':'inherit');\n    var cColor = r.co2>1000?'red':(r.co2>800?'orange':'inherit');\n    html+='<tr style=\"background:'+bg+';text-align:center\">';\n    html+='<td style=\"padding:5px\">'+ts+'</td>';\n    html+='<td><b>'+r.location+'</b></td>';\n    html+='<td style=\"color:'+tColor+'\">'+r.temperature+'</td>';\n    html+='<td>'+r.humidity+'</td>';\n    html+='<td style=\"color:'+cColor+'\">'+r.co2+'</td>';\n    html+='<td>'+r.pm25+'</td>';\n    html+='</tr>';\n});\nhtml+='</tbody></table></div>';\nmsg.payload=html;\nreturn msg;",
+        "func": "var rows = msg.payload;\nif (!rows || rows.length === 0) { msg.payload='<p style=\"padding:10px;color:#999\">데이터 없음 — injector.py 실행 여부 확인</p>'; return msg; }\nvar html = '<div style=\"overflow-x:auto;padding:4px\">';\nhtml += '<table style=\"width:100%;border-collapse:collapse;font-size:13px;font-family:sans-serif\">';\nhtml += '<thead><tr style=\"background:#1565c0;color:#fff;text-align:center\">';\nhtml += '<th style=\"padding:8px 6px\">시각</th>';\nhtml += '<th style=\"padding:8px 6px\">위치</th>';\nhtml += '<th style=\"padding:8px 6px\">온도(°C)</th>';\nhtml += '<th style=\"padding:8px 6px\">습도(%)</th>';\nhtml += '<th style=\"padding:8px 6px\">CO₂(ppm)</th>';\nhtml += '<th style=\"padding:8px 6px\">PM2.5</th>';\nhtml += '</tr></thead><tbody>';\nrows.forEach(function(r, i) {\n    var bg = (i % 2 === 0) ? '#ffffff' : '#f0f4ff';\n    var raw = String(r.recorded_at).replace(' ', 'T');\n    var dt = new Date(raw);\n    var ts = isNaN(dt.getTime()) ? String(r.recorded_at).slice(11,19) :\n        ('0'+dt.getHours()).slice(-2)+':'+('0'+dt.getMinutes()).slice(-2)+':'+('0'+dt.getSeconds()).slice(-2);\n    var temp = parseFloat(r.temperature).toFixed(1);\n    var hum  = parseFloat(r.humidity).toFixed(1);\n    var co2  = parseInt(r.co2);\n    var pm   = parseFloat(r.pm25).toFixed(1);\n    var tColor = temp > 30 ? '#e53935' : (temp > 26 ? '#fb8c00' : '#2e7d32');\n    var cColor = co2 > 1000 ? '#e53935' : (co2 > 800 ? '#fb8c00' : '#1565c0');\n    html += '<tr style=\"background:'+bg+';text-align:center\">';\n    html += '<td style=\"padding:5px 6px;color:#555\">'+ts+'</td>';\n    html += '<td style=\"padding:5px 6px;font-weight:bold\">'+r.location+'</td>';\n    html += '<td style=\"padding:5px 6px;color:'+tColor+';font-weight:bold\">'+temp+'</td>';\n    html += '<td style=\"padding:5px 6px\">'+hum+'</td>';\n    html += '<td style=\"padding:5px 6px;color:'+cColor+';font-weight:bold\">'+co2+'</td>';\n    html += '<td style=\"padding:5px 6px\">'+pm+'</td>';\n    html += '</tr>';\n});\nhtml += '</tbody></table></div>';\nmsg.payload = html;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 740,
         "y": 140,
-        "wires": [["ui_table"]]
+        "wires": [
+            [
+                "ui_table"
+            ]
+        ]
     },
-
     {
         "id": "gauge_temp",
         "type": "ui_gauge",
@@ -188,7 +227,11 @@
         "format": "{{value}}",
         "min": 0,
         "max": 50,
-        "colors": ["#00b0ff", "#00e676", "#ff5252"],
+        "colors": [
+            "#00b0ff",
+            "#00e676",
+            "#ff5252"
+        ],
         "seg1": 20,
         "seg2": 35,
         "x": 960,
@@ -210,7 +253,11 @@
         "format": "{{value}}",
         "min": 0,
         "max": 100,
-        "colors": ["#ff9800", "#00e676", "#1565c0"],
+        "colors": [
+            "#ff9800",
+            "#00e676",
+            "#1565c0"
+        ],
         "seg1": 30,
         "seg2": 70,
         "x": 960,
@@ -232,7 +279,11 @@
         "format": "{{value}}",
         "min": 350,
         "max": 2000,
-        "colors": ["#00e676", "#ff9800", "#ff5252"],
+        "colors": [
+            "#00e676",
+            "#ff9800",
+            "#ff5252"
+        ],
         "seg1": 800,
         "seg2": 1200,
         "x": 960,
@@ -254,14 +305,17 @@
         "format": "{{value}}",
         "min": 0,
         "max": 150,
-        "colors": ["#00e676", "#ff9800", "#ff5252"],
+        "colors": [
+            "#00e676",
+            "#ff9800",
+            "#ff5252"
+        ],
         "seg1": 35,
         "seg2": 75,
         "x": 960,
         "y": 140,
         "wires": []
     },
-
     {
         "id": "chart_temp",
         "type": "ui_chart",
@@ -286,11 +340,22 @@
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
-        "colors": ["#1e88e5","#43a047","#fb8c00","#e53935","#8e24aa","#00acc1","#f4511e","#6d4c41"],
+        "colors": [
+            "#1e88e5",
+            "#43a047",
+            "#fb8c00",
+            "#e53935",
+            "#8e24aa",
+            "#00acc1",
+            "#f4511e",
+            "#6d4c41"
+        ],
         "outputs": 1,
         "x": 960,
         "y": 200,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "chart_hum",
@@ -316,11 +381,22 @@
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
-        "colors": ["#1e88e5","#43a047","#fb8c00","#e53935","#8e24aa","#00acc1","#f4511e","#6d4c41"],
+        "colors": [
+            "#1e88e5",
+            "#43a047",
+            "#fb8c00",
+            "#e53935",
+            "#8e24aa",
+            "#00acc1",
+            "#f4511e",
+            "#6d4c41"
+        ],
         "outputs": 1,
         "x": 960,
         "y": 240,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "chart_co2",
@@ -346,11 +422,22 @@
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
-        "colors": ["#1e88e5","#43a047","#fb8c00","#e53935","#8e24aa","#00acc1","#f4511e","#6d4c41"],
+        "colors": [
+            "#1e88e5",
+            "#43a047",
+            "#fb8c00",
+            "#e53935",
+            "#8e24aa",
+            "#00acc1",
+            "#f4511e",
+            "#6d4c41"
+        ],
         "outputs": 1,
         "x": 960,
         "y": 280,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
     {
         "id": "chart_pm",
@@ -376,13 +463,23 @@
         "cutout": 0,
         "useOneColor": false,
         "useUTC": false,
-        "colors": ["#1e88e5","#43a047","#fb8c00","#e53935","#8e24aa","#00acc1","#f4511e","#6d4c41"],
+        "colors": [
+            "#1e88e5",
+            "#43a047",
+            "#fb8c00",
+            "#e53935",
+            "#8e24aa",
+            "#00acc1",
+            "#f4511e",
+            "#6d4c41"
+        ],
         "outputs": 1,
         "x": 960,
         "y": 320,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     },
-
     {
         "id": "ui_table",
         "type": "ui_template",
@@ -399,6 +496,8 @@
         "templateTitle": "",
         "x": 960,
         "y": 140,
-        "wires": [[]]
+        "wires": [
+            []
+        ]
     }
 ]
