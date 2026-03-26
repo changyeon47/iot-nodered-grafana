@@ -1,0 +1,46 @@
+============================================================
+  제출 정보 — IoT Node-RED & Grafana 실시간 모니터링
+============================================================
+
+프로젝트 이름:  IoT 실시간 모니터링 (Node-RED & Grafana)
+GitHub 저장소:  https://github.com/changyeon47/iot-nodered-grafana
+제출 일자:      2026-03-26
+
+------------------------------------------------------------
+개발 환경
+------------------------------------------------------------
+OS:             Zorin OS / Ubuntu 24.04 (VMware 가상머신)
+Python:         Python 3.12
+DB:             MySQL 8.0 (env_monitor.sensor_data)
+플로우 툴:      Node-RED v4.1.8 + node-red-node-mysql + node-red-dashboard
+모니터링 툴:    Grafana OSS 11.5.2 (standalone)
+
+------------------------------------------------------------
+동작 영상 (제출 파일)
+------------------------------------------------------------
+영상 1: Node-RED_dashboard.mp4
+        → Node-RED UI (localhost:1880/ui)
+          게이지(온도·습도·CO₂·PM2.5) + 시계열 차트 실시간 모니터링
+
+영상 2: Grafana_dashboard.mp4
+        → Grafana (localhost:3000) — admin/admin
+          IoT 환경 센서 모니터링 대시보드 실시간 모니터링
+
+------------------------------------------------------------
+접속 URL
+------------------------------------------------------------
+Node-RED 편집기: http://localhost:1880
+Node-RED UI:     http://localhost:1880/ui
+Grafana:         http://localhost:3000  (admin / admin)
+
+------------------------------------------------------------
+실행 순서
+------------------------------------------------------------
+1. sudo bash setup.sh
+2. python3 injector.py         (데이터 주입)
+3. node-red --port 1880        (Node-RED)
+4. ~/grafana-standalone/bin/grafana server \
+     --config ~/grafana-standalone/conf/custom.ini \
+     --homepath ~/grafana-standalone   (Grafana)
+
+============================================================

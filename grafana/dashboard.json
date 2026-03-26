@@ -1,0 +1,346 @@
+{
+  "__inputs": [],
+  "__requires": [],
+  "annotations": {"list": []},
+  "description": "IoT 환경 센서 실시간 모니터링 대시보드",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0},
+      "id": 1,
+      "title": "실시간 센서 현황 (최신값)",
+      "type": "row"
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "blue", "value": null},
+              {"color": "green", "value": 15},
+              {"color": "yellow", "value": 30},
+              {"color": "red", "value": 38}
+            ]
+          },
+          "unit": "celsius",
+          "min": 0, "max": 50
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 1},
+      "id": 10,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false},
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "title": "온도 (°C) - 평균",
+      "type": "gauge",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT AVG(temperature) as '온도(°C)' FROM sensor_data WHERE recorded_at >= NOW() - INTERVAL 10 SECOND;",
+          "refId": "A",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "orange", "value": null},
+              {"color": "green", "value": 30},
+              {"color": "blue", "value": 70},
+              {"color": "dark-blue", "value": 85}
+            ]
+          },
+          "unit": "percent",
+          "min": 0, "max": 100
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 1},
+      "id": 11,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false},
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "title": "습도 (%) - 평균",
+      "type": "gauge",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT AVG(humidity) as '습도(%)' FROM sensor_data WHERE recorded_at >= NOW() - INTERVAL 10 SECOND;",
+          "refId": "A",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 800},
+              {"color": "orange", "value": 1200},
+              {"color": "red", "value": 1500}
+            ]
+          },
+          "unit": "ppm",
+          "min": 350, "max": 2000
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 12, "y": 1},
+      "id": 12,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false},
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "title": "CO₂ (ppm) - 평균",
+      "type": "gauge",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT AVG(co2) as 'CO2(ppm)' FROM sensor_data WHERE recorded_at >= NOW() - INTERVAL 10 SECOND;",
+          "refId": "A",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "thresholds"},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": null},
+              {"color": "yellow", "value": 15},
+              {"color": "orange", "value": 35},
+              {"color": "red", "value": 75}
+            ]
+          },
+          "unit": "µg/m³",
+          "min": 0, "max": 150
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 4, "w": 6, "x": 18, "y": 1},
+      "id": 13,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false},
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "title": "PM2.5 (µg/m³) - 평균",
+      "type": "gauge",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT AVG(pm25) as 'PM2.5' FROM sensor_data WHERE recorded_at >= NOW() - INTERVAL 10 SECOND;",
+          "refId": "A",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 5},
+      "id": 2,
+      "title": "시계열 추이",
+      "type": "row"
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"lineWidth": 2, "fillOpacity": 10},
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 6},
+      "id": 20,
+      "options": {
+        "legend": {"calcs": ["last", "mean"], "displayMode": "table", "placement": "bottom"},
+        "tooltip": {"mode": "multi"}
+      },
+      "title": "온도 추이 (°C)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, location AS metric, temperature AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at;",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"lineWidth": 2, "fillOpacity": 10},
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 6},
+      "id": 21,
+      "options": {
+        "legend": {"calcs": ["last", "mean"], "displayMode": "table", "placement": "bottom"},
+        "tooltip": {"mode": "multi"}
+      },
+      "title": "습도 추이 (%)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, location AS metric, humidity AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at;",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"lineWidth": 2, "fillOpacity": 10},
+          "unit": "ppm"
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 14},
+      "id": 22,
+      "options": {
+        "legend": {"calcs": ["last", "mean"], "displayMode": "table", "placement": "bottom"},
+        "tooltip": {"mode": "multi"}
+      },
+      "title": "CO₂ 추이 (ppm)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, location AS metric, co2 AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at;",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {
+          "color": {"mode": "palette-classic"},
+          "custom": {"lineWidth": 2, "fillOpacity": 10},
+          "unit": "µg/m³"
+        },
+        "overrides": []
+      },
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 14},
+      "id": 23,
+      "options": {
+        "legend": {"calcs": ["last", "mean"], "displayMode": "table", "placement": "bottom"},
+        "tooltip": {"mode": "multi"}
+      },
+      "title": "PM2.5 추이 (µg/m³)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, location AS metric, pm25 AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at;",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {"h": 1, "w": 24, "x": 0, "y": 22},
+      "id": 3,
+      "title": "위치별 최근 측정값 테이블",
+      "type": "row"
+    },
+    {
+      "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+      "fieldConfig": {
+        "defaults": {"custom": {"align": "center"}},
+        "overrides": [
+          {"matcher": {"id": "byName", "options": "온도(°C)"},
+           "properties": [{"id": "custom.width", "value": 120},
+                          {"id": "thresholds", "value": {"mode": "absolute", "steps": [{"color": "blue","value": null},{"color": "green","value": 15},{"color": "yellow","value": 30},{"color": "red","value": 38}]}},
+                          {"id": "custom.displayMode", "value": "color-background"}]},
+          {"matcher": {"id": "byName", "options": "CO2(ppm)"},
+           "properties": [{"id": "thresholds", "value": {"mode": "absolute", "steps": [{"color": "green","value": null},{"color": "yellow","value": 800},{"color": "red","value": 1200}]}},
+                          {"id": "custom.displayMode", "value": "color-background"}]}
+        ]
+      },
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 23},
+      "id": 30,
+      "options": {
+        "footer": {"show": false},
+        "showHeader": true,
+        "sortBy": [{"desc": true, "displayName": "시각"}]
+      },
+      "title": "최근 측정 기록 (위치별 최신값)",
+      "type": "table",
+      "targets": [
+        {
+          "datasource": {"type": "mysql", "uid": "${DS_MYSQL-ENV_MONITOR}"},
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS '시각', location AS '위치', temperature AS '온도(°C)', humidity AS '습도(%)', co2 AS 'CO2(ppm)', pm25 AS 'PM2.5(µg/m³)' FROM sensor_data ORDER BY recorded_at DESC LIMIT 20;",
+          "refId": "A",
+          "format": "table"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "tags": ["IoT", "환경모니터링", "MySQL"],
+  "templating": {"list": []},
+  "time": {"from": "now-30m", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "IoT 환경 센서 모니터링",
+  "uid": "iot-env-monitor",
+  "version": 1
+}
