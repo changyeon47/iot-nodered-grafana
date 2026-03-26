@@ -367,9 +367,43 @@
             "uid": "P81578B8240A3D9DA"
           },
           "rawQuery": true,
-          "rawSql": "SELECT recorded_at AS time, location AS metric, temperature AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at ASC;",
+          "rawSql": "SELECT recorded_at AS time, temperature AS value FROM sensor_data WHERE location='실험실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
           "refId": "A",
-          "format": "time_series"
+          "format": "time_series",
+          "alias": "실험실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, temperature AS value FROM sensor_data WHERE location='사무실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "B",
+          "format": "time_series",
+          "alias": "사무실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, temperature AS value FROM sensor_data WHERE location='서버실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "C",
+          "format": "time_series",
+          "alias": "서버실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, temperature AS value FROM sensor_data WHERE location='야외' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "D",
+          "format": "time_series",
+          "alias": "야외"
         }
       ]
     },
@@ -420,9 +454,43 @@
             "uid": "P81578B8240A3D9DA"
           },
           "rawQuery": true,
-          "rawSql": "SELECT recorded_at AS time, location AS metric, humidity AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at ASC;",
+          "rawSql": "SELECT recorded_at AS time, humidity AS value FROM sensor_data WHERE location='실험실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
           "refId": "A",
-          "format": "time_series"
+          "format": "time_series",
+          "alias": "실험실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, humidity AS value FROM sensor_data WHERE location='사무실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "B",
+          "format": "time_series",
+          "alias": "사무실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, humidity AS value FROM sensor_data WHERE location='서버실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "C",
+          "format": "time_series",
+          "alias": "서버실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, humidity AS value FROM sensor_data WHERE location='야외' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "D",
+          "format": "time_series",
+          "alias": "야외"
         }
       ]
     },
@@ -473,9 +541,43 @@
             "uid": "P81578B8240A3D9DA"
           },
           "rawQuery": true,
-          "rawSql": "SELECT recorded_at AS time, location AS metric, co2 AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at ASC;",
+          "rawSql": "SELECT recorded_at AS time, co2 AS value FROM sensor_data WHERE location='실험실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
           "refId": "A",
-          "format": "time_series"
+          "format": "time_series",
+          "alias": "실험실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, co2 AS value FROM sensor_data WHERE location='사무실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "B",
+          "format": "time_series",
+          "alias": "사무실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, co2 AS value FROM sensor_data WHERE location='서버실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "C",
+          "format": "time_series",
+          "alias": "서버실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, co2 AS value FROM sensor_data WHERE location='야외' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "D",
+          "format": "time_series",
+          "alias": "야외"
         }
       ]
     },
@@ -526,9 +628,43 @@
             "uid": "P81578B8240A3D9DA"
           },
           "rawQuery": true,
-          "rawSql": "SELECT recorded_at AS time, location AS metric, pm25 AS value FROM sensor_data WHERE $__timeFilter(recorded_at) ORDER BY recorded_at ASC;",
+          "rawSql": "SELECT recorded_at AS time, pm25 AS value FROM sensor_data WHERE location='실험실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
           "refId": "A",
-          "format": "time_series"
+          "format": "time_series",
+          "alias": "실험실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, pm25 AS value FROM sensor_data WHERE location='사무실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "B",
+          "format": "time_series",
+          "alias": "사무실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, pm25 AS value FROM sensor_data WHERE location='서버실' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "C",
+          "format": "time_series",
+          "alias": "서버실"
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "P81578B8240A3D9DA"
+          },
+          "rawQuery": true,
+          "rawSql": "SELECT recorded_at AS time, pm25 AS value FROM sensor_data WHERE location='야외' AND recorded_at >= NOW() - INTERVAL 30 MINUTE ORDER BY recorded_at ASC;",
+          "refId": "D",
+          "format": "time_series",
+          "alias": "야외"
         }
       ]
     },
@@ -676,7 +812,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
